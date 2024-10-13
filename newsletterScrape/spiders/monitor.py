@@ -18,14 +18,10 @@ class MonitorSpider(scrapy.Spider):
 
 
     def parse(self, response):
-        # self.parseNewsCategories(response)
-        category = {
-            "category_name": "Ekonomi",
-            "category_link": "https://monitor.al/ekonomi/"
-        }
-        self.categoriesList.append(category)
-        # Make a request to the category link and handle the response in parseNewsArticles
-        yield scrapy.Request(url=category["category_link"], callback=self.parseNewsArticles)
+        self.parseNewsCategories(response)
+        for category in self.categoriesList:
+            yield scrapy.Request(url=category["category_link"], callback=self.parseNewsArticles)
+
 
     def parseNewsCategories(self, response):
         categories = response.css("#myUL li")
